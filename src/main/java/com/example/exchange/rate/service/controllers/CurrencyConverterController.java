@@ -7,6 +7,7 @@ import com.example.exchange.rate.service.exceptions.ErrorCode;
 import com.example.exchange.rate.service.modal.ExchangeRates;
 import com.example.exchange.rate.service.service.ExchangeRateService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
+@Slf4j
 public class CurrencyConverterController {
     private ExchangeRateService exchangeRateService;
 
@@ -30,6 +32,8 @@ public class CurrencyConverterController {
 
     @PostMapping("/rates")
     public ResponseEntity<ConversionRateOutDto> getConversionRate(@Valid @RequestBody ConversionRateInDto conversionRateInDto) {
+        log.info("[Request] Conversion request received with parameters: " + conversionRateInDto);
+
         ExchangeRates exchangeRates = exchangeRateService.getExchangeRates();
         Map<String, Double> exchangeRatesMap = exchangeRates.getExchangeRates();
 
@@ -56,6 +60,7 @@ public class CurrencyConverterController {
         conversionRateOutDto.setResult(resultBigDecimal.doubleValue());
         conversionRateOutDto.setDate(exchangeRates.getDate());
 
+        log.info("[Response] Conversion response: " + conversionRateOutDto);
         return ResponseEntity.ok(conversionRateOutDto);
     }
 }
