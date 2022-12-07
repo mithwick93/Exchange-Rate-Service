@@ -10,7 +10,7 @@ This project uses Gradle as the build automation tool.
 
 * Java 17
 
-#### Run the tests
+#### Build the application
 
 ```.\gradlew build -x test```
 
