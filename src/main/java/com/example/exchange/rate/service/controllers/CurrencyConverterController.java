@@ -6,6 +6,9 @@ import com.example.exchange.rate.service.exceptions.CustomException;
 import com.example.exchange.rate.service.exceptions.ErrorCode;
 import com.example.exchange.rate.service.modal.ExchangeRates;
 import com.example.exchange.rate.service.service.ExchangeRateService;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +45,8 @@ public class CurrencyConverterController {
     @GetMapping(value = "/exchange-rates", produces = "application/json")
     public ResponseEntity<ConversionRateOutDto> getConversionRate(
             @RequestParam(required = false, defaultValue = "EUR") String from,
-            @RequestParam String to, @RequestParam(required = false,
-            defaultValue = "1.0") Double amount
+            @RequestParam @NotBlank @NotNull String to,
+            @RequestParam(required = false, defaultValue = "1.0") @Min(1) Double amount
     ) {
         log.info("[Request] Conversion request received with parameters: from={}, to={}, amount={}", from, to, amount);
 
