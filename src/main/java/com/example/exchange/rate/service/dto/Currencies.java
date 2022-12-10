@@ -6,14 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ConversionRateOutDto {
-    private String sourceCurrency;
-    private String targetCurrency;
-    private Double result;
-    private String date;
+public class Currencies {
+    private List<String> currencies;
 }

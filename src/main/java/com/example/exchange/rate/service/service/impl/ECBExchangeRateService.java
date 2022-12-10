@@ -17,6 +17,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +47,7 @@ public class ECBExchangeRateService implements ExchangeRateService {
         try {
             log.info("Fetching ECB exchange rates");
 
-            Map<String, Double> exchangeRatesMap = new HashMap<>();
+            Map<String, BigDecimal> exchangeRatesMap = new HashMap<>();
             String date = null;
 
             DocumentBuilder builder = DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
@@ -62,7 +64,8 @@ public class ECBExchangeRateService implements ExchangeRateService {
 
                     if (elem.hasAttribute(CURRENCY_ATTRIBUTE_NAME) && elem.hasAttribute(RATE_ATTRIBUTE_NAME)) {
                         String currencyIdentifier = elem.getAttribute(CURRENCY_ATTRIBUTE_NAME);
-                        double currencyRate = Double.parseDouble(elem.getAttribute(RATE_ATTRIBUTE_NAME));
+                        BigDecimal currencyRate = new BigDecimal(elem.getAttribute(RATE_ATTRIBUTE_NAME));
+                        currencyRate = currencyRate.setScale(4, RoundingMode.HALF_UP);
 
                         exchangeRatesMap.put(currencyIdentifier, currencyRate);
                     } else if (elem.hasAttribute(DATE_ATTRIBUTE_NAME)) {
