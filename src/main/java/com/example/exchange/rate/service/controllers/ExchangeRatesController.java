@@ -4,6 +4,7 @@ import com.example.exchange.rate.service.dto.ExchangeRateDto;
 import com.example.exchange.rate.service.dto.LatestRatesDto;
 import com.example.exchange.rate.service.dto.SymbolsDto;
 import com.example.exchange.rate.service.modal.ExchangeRate;
+import com.example.exchange.rate.service.modal.LatestRates;
 import com.example.exchange.rate.service.modal.Symbols;
 import com.example.exchange.rate.service.service.ExchangeRateService;
 import jakarta.validation.constraints.Min;
@@ -32,19 +33,26 @@ public class ExchangeRatesController {
 
     @GetMapping(value = "/symbols", produces = "application/json")
     public ResponseEntity<SymbolsDto> getListOfCurrencies() {
-        log.info("[Request] List of SymbolsDto request received");
+        log.info("[Request] List of currency symbols request received V1");
 
         Symbols currencies = exchangeRateService.getSymbols();
         SymbolsDto symbolsDto = SymbolsDto.from(currencies);
 
-        log.info("[Response] List of Symbols: " + symbolsDto);
+        log.info("[Response] List of currency Symbols V1 : " + symbolsDto);
 
         return ResponseEntity.ok(symbolsDto);
     }
 
     @GetMapping(value = "/latest-rates", produces = "application/json")
     public ResponseEntity<LatestRatesDto> getExchangeRates() {
-        return null;
+        log.info("[Request] List of Exchange rates request received V1");
+
+        LatestRates latestRates = exchangeRateService.getLatestRates();
+        LatestRatesDto latestRatesDto = LatestRatesDto.from(latestRates);
+
+        log.info("[Response] List of Exchange rates V1 : " + latestRatesDto);
+
+        return ResponseEntity.ok(latestRatesDto);
     }
 
     @GetMapping(value = "/exchange-rates", produces = "application/json")
@@ -53,12 +61,12 @@ public class ExchangeRatesController {
             @RequestParam @NotBlank @NotNull String to,
             @RequestParam(required = false, defaultValue = "1.0") @Min(1) Double amount
     ) {
-        log.info("[Request] Conversion request received with parameters: from={}, to={}, amount={}", from, to, amount);
+        log.info("[Request] Conversion request received with parameters V1 : from={}, to={}, amount={}", from, to, amount);
 
         ExchangeRate exchangeRate = exchangeRateService.getExchangeRate(from, to, amount);
         ExchangeRateDto exchangeRateDto = ExchangeRateDto.from(exchangeRate);
 
-        log.info("[Response] Conversion response: " + exchangeRateDto);
+        log.info("[Response] Conversion response V1 : " + exchangeRateDto);
 
         return ResponseEntity.ok(exchangeRateDto);
     }

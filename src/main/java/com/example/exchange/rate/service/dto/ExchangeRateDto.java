@@ -15,11 +15,13 @@ import lombok.NoArgsConstructor;
 public class ExchangeRateDto {
     private String from;
     private String to;
-    private Double result;
+
+    private double amount;
+    private double result;
     private String date;
 
     public static ExchangeRateDto from(ExchangeRate exchangeRate) {
-        return new ExchangeRateDto(exchangeRate.getFrom(), exchangeRate.getTo(), exchangeRate.getResult(), exchangeRate.getDate());
+        return new ExchangeRateDto(exchangeRate.getFrom(), exchangeRate.getTo(), exchangeRate.getAmount(), exchangeRate.getResult(), exchangeRate.getDate());
     }
 
 }
