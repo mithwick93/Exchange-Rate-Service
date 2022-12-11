@@ -21,6 +21,15 @@ This project uses Gradle as the build automation tool.
 #### Access the API
 Swagger UI available at http://localhost:8080/swagger-ui/index.html
 
+## Todo
+1. AOP - logging
+2. Record no of times symbolsDto were called
+   1. Save to database
+   2. Should not block
+      1. Use a blocking queue 
+      2. Scheduling / or pub sub
+
+
 ## License Information
 
 <pre>
