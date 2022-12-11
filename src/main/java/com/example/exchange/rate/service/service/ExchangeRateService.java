@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static com.example.exchange.rate.service.Constants.BASE_CURRENCY;
 import static com.example.exchange.rate.service.Constants.BASE_CURRENCY_RATE;
+import static com.example.exchange.rate.service.Constants.PRECISION;
 
 @Service
 public class ExchangeRateService {
@@ -57,7 +58,7 @@ public class ExchangeRateService {
         BigDecimal targetCurrencyRate = BASE_CURRENCY.equals(to) ? BASE_CURRENCY_RATE : exchangeRatesMap.get(to);
 
         BigDecimal resultDouble = amountBigDecimal.divide(sourceCurrencyRate, RoundingMode.HALF_UP).multiply(targetCurrencyRate);
-        resultDouble = resultDouble.setScale(4, RoundingMode.HALF_UP);
+        resultDouble = resultDouble.setScale(PRECISION, RoundingMode.HALF_UP);
 
         return new ExchangeRate(from, to, amount, resultDouble.doubleValue(), baseExchangeRates.getDate());
     }

@@ -22,6 +22,8 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.exchange.rate.service.Constants.PRECISION;
+
 @Service
 @Slf4j
 public class ECBExchangeRateSourceService implements ExchangeRateSourceService {
@@ -62,7 +64,7 @@ public class ECBExchangeRateSourceService implements ExchangeRateSourceService {
                     if (elem.hasAttribute(CURRENCY_ATTRIBUTE_NAME) && elem.hasAttribute(RATE_ATTRIBUTE_NAME)) {
                         String currencyIdentifier = elem.getAttribute(CURRENCY_ATTRIBUTE_NAME);
                         BigDecimal currencyRate = new BigDecimal(elem.getAttribute(RATE_ATTRIBUTE_NAME));
-                        currencyRate = currencyRate.setScale(4, RoundingMode.HALF_UP);
+                        currencyRate = currencyRate.setScale(PRECISION, RoundingMode.HALF_UP);
 
                         exchangeRatesMap.put(currencyIdentifier, currencyRate);
                     } else if (elem.hasAttribute(DATE_ATTRIBUTE_NAME)) {
@@ -76,7 +78,7 @@ public class ECBExchangeRateSourceService implements ExchangeRateSourceService {
             }
 
             BaseExchangeRates baseExchangeRates = new BaseExchangeRates(exchangeRatesMap, date);
-            log.info("Successfully Fetched exchange rates" + baseExchangeRates);
+            log.info("Successfully Fetched exchange rates: " + baseExchangeRates);
             return baseExchangeRates;
         } catch (IOException | SAXException | ParserConfigurationException e) {
             throw new ExternalServiceException(ECBExchangeRateSourceService.class.getName(), e.getMessage());
